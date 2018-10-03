@@ -55,7 +55,7 @@ class html{
         $html="";
 
         if($rowNum%2==0){
-            $html="<tr class=\"even\">";
+            $html="<tr bgcolor=\"yellow\">";
         }
         else{
             $html="<tr class=\"odd\">";
