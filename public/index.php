@@ -52,7 +52,14 @@ class html{
     }
 
     static public function tableRow($row, $rowNum){
-        $html = '<tr>'."\n";
+        $html="";
+
+        if($rowNum%2==0){
+            $html="<tr class=\"even\">";
+        }
+        else{
+            $html="<tr class=\"odd\">";
+        }
 
         if($rowNum>0){
             $html .= html::tableColumn($row);
@@ -61,7 +68,7 @@ class html{
             $html .= html::tableHead($row);
         }
 
-        $html .= '<tr>'."\n";
+        $html .= '</tr>'."\n";
 
         return $html;
     }
