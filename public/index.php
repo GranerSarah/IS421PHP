@@ -40,8 +40,23 @@ class html{
      */
     static public function createTable($records){
         $html = '<table>'."\n";
+        $html .=html::tableHead($records);
         $html .= html::tableRow($records);
         $html .= '</table>'."\n";
+
+        return $html;
+    }
+
+    static public function tableHead($fullRecord){
+        $firstRow = $fullRecord[0];
+        $headings = explode(",", $firstRow);
+        $html="";
+
+        for ($x=0;$x<count($headings);$x++){
+            $html .= "<th>"."\n";
+            $html .= $headings[$x]."\n";
+            $html .= "</th>"."\n";
+        }
 
         return $html;
     }
