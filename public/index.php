@@ -6,7 +6,7 @@
  * Time: 6:35 PM
  */
 
-main::start("../FL_insurance_sample_small.csv");
+main::start("../FL_insurance_sample.csv");
 
 class main{
     static public function start($filename){
@@ -39,40 +39,56 @@ class html{
      * @return string
      */
     static public function createTable($records){
+
         $html = '<table>'."\n";
-        $html .=html::tableHead($records);
-        $html .= html::tableRow($records);
+
+        for($x=0;$x<count($records);$x++){
+            $html .= html::tableRow($records[$x],$x);
+        }
+
         $html .= '</table>'."\n";
 
         return $html;
     }
 
-    static public function tableHead($fullRecord){
-        $firstRow = $fullRecord[0];
-        $headings = explode(",", $firstRow);
-        $html="";
+    static public function tableRow($row, $rowNum){
+        $html = '<tr>'."\n";
 
-        for ($x=0;$x<count($headings);$x++){
-            $html .= "<th>"."\n";
-            $html .= $headings[$x]."\n";
-            $html .= "</th>"."\n";
+        if($rowNum>0){
+            $html .= html::tableColumn($row);
+        }
+        else{
+            $html .= html::tableHead($row);
         }
 
-        return $html;
-    }
-
-    static public function tableRow($row){
-        $html = '<tr>'."\n";
-        $html .= html::tableColumn($row);
         $html .= '<tr>'."\n";
 
         return $html;
     }
 
-    static public function tableColumn($column){
-        $html = '<td>';
-        $html .= $column;
-        $html .= '<td>'."\n";
+    static public function tableColumn($row){
+        $html="";
+
+        $columns=explode(",",$row);
+
+        for($z=0;$z<count($columns);$z++){
+            $html .= "<td>"."\n";
+            $html .= $columns[$z]."\n";
+            $html .= "</td>"."\n";
+        }
+
+        return $html;
+    }
+
+    static public function tableHead($firstRow){
+        $headings = explode(",", $firstRow);
+        $html="";
+
+        for ($y=0;$y<count($headings);$y++){
+            $html .= "<th>"."\n";
+            $html .= $headings[$y]."\n";
+            $html .= "</th>"."\n";
+        }
 
         return $html;
     }
