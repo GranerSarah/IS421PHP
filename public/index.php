@@ -43,6 +43,10 @@ class record{
         }
 
     }
+
+    public function createProperty($name='columndName',$value='cellValue'){
+        $this->{$name}=$value;
+    }
 }
 
 class html{
