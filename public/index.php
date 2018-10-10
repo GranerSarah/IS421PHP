@@ -29,10 +29,13 @@ class csv{
 
         while(!feof($csvRaw)){
 
-            $nextRow=fgetcsv($csvRaw);
+            $rowRaw=fgets($csvRaw);
+            $nextRow=explode(",",$rowRaw);
+
+
 
             if($count==0){
-                $fieldNames=$nextRow;
+                $columnNames=$nextRow;
             }else{
                 $records[]=recordFactory::create($columnNames,$nextRow);
             }
@@ -50,21 +53,29 @@ class csv{
 class record{
 
     public function __construct(Array $fieldNames=null,$values=null){
-        $record=array_combine($fieldNames, $values);
 
-        foreach($record as $property => $value){
-            $this->createProperty($property,$value);
+        for($rowNum=0;$rowNum<count($values);$rowNum++){
+            $cells=$values;
+            for($cellNum=0;$cellNum<count($cells);$cellNum++){
+                $this->createProperty($fieldNames[$cellNum],$cells[$cellNum]);
+            }
         }
 
     }
 
-    public function createProperty($name='columndName',$value='cellValue'){
+    public function returnArray(){
+        $array=(array) $this;
+        return $array;
+    }
+
+    public function createProperty($name='columnName',$value='cellValue'){
         $this->{$name}=$value;
     }
 }
 
 class recordFactory{
-    public static function create(Array $fieldNames=null,Array$values=null){
+    public static function create(Array $fieldNames=null, Array $values=null){
+
         $record=new record($fieldNames,$values);
 
         return $record;
@@ -76,23 +87,23 @@ class html{
      * @param $records
      * @return string
      */
-    static public function createTable($records){
+    static public function createTable($records)
+    {
 
-        $count=0;
+        $count = 0;
 
-        foreach($records as $record){
+        foreach ($records as $record) {
 
-            if($count==0){
+            if ($count == 0) {
 
-                $array=$record->returnArray();
-                $fields=array_keys($array);
-                $values=array_values($array);
+                $array = $record->returnArray();
+                $fields = array_keys($array);
+                $values = array_values($array);
                 print_r($fields);
                 print_r($values);
-            }
-            else{
-                $array=$record->returnArray();
-                $values=array_values($array);
+            } else {
+                $array = $record->returnArray();
+                $values = array_values($array);
                 print_r($values);
             }
             $count++;
@@ -100,10 +111,5 @@ class html{
     }
 }
 
-class system{
-    public static function printPage($page){
-        echo $page;
-    }
-}
 
 ?>
