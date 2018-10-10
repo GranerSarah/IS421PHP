@@ -95,12 +95,14 @@ class html{
         foreach ($records as $record) {
 
             $array=$record->returnArray();
+            $fields=array_keys($array);
             $values=array_values($array);
 
             if ($count == 0) {
 
-                $headings=html::tableHead($values);
+                $headings=html::tableHead($fields);
                 print_r($headings);
+                $row=html::tableRow($values, $count);
 
             } else {
                 $row=html::tableRow($values, $count);
