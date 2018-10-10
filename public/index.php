@@ -103,6 +103,7 @@ class html{
                 $headings=html::tableHead($fields);
                 print_r($headings);
                 $row=html::tableRow($values, $count);
+                print_r($row);
 
             } else {
                 $row=html::tableRow($values, $count);
