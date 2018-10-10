@@ -32,8 +32,6 @@ class csv{
             $rowRaw=fgets($csvRaw);
             $nextRow=explode(",",$rowRaw);
 
-
-
             if($count==0){
                 $columnNames=$nextRow;
             }else{
