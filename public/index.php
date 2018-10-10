@@ -90,24 +90,78 @@ class html{
     static public function createTable($records)
     {
 
+        echo("<table>");
+
         $count = 0;
 
         foreach ($records as $record) {
 
+            $array=$record->returnArray();
+            $values=array_values($array);
+
             if ($count == 0) {
 
-                $array = $record->returnArray();
-                $fields = array_keys($array);
-                $values = array_values($array);
-                print_r($fields);
-                print_r($values);
+                $headings=html::tableHead($values);
+                print_r($headings);
+
             } else {
-                $array = $record->returnArray();
-                $values = array_values($array);
-                print_r($values);
+                $row=html::tableRow($values, $count);
+                print_r($row);
             }
             $count++;
         }
+
+        echo("</table>");
+    }
+
+    static public function tableHead(Array $headings=null){
+        $row="<thead>\n<tr>\n";
+
+        foreach($headings as $heading){
+            $row.="<th>";
+            $row.=$heading;
+            $row.="</th>\n";
+        }
+
+        $row.="</tr>\n</thead>";
+
+        return $row;
+
+    }
+
+    static public function tableRow(Array $values=null, $rowNum=0){
+
+        $row="<tr>\n";
+
+        if($rowNum%2==0){
+            foreach($values as $cell){
+                $row.=html::tableCellsEven($cell);
+            }
+        }else{
+            foreach($values as $cell){
+                $row.=html::tableCellsOdd($cell);
+            }
+        }
+
+        $row.="</tr>\n";
+
+        return $row;
+    }
+
+    static public function tableCellsEven($value=""){
+        $cell="<td>";
+        $cell.=$value;
+        $cell.="</td>\n";
+
+        return $cell;
+    }
+
+    static public function tableCellsOdd($value=""){
+        $cell="<td style=\"background-color:coral;\">";
+        $cell.=$value;
+        $cell.="</td>\n";
+
+        return $cell;
     }
 }
 
