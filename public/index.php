@@ -10,6 +10,7 @@ main::start("../FL_insurance_sample.csv");
 
 class main{
     static public function start($filename){
+
         $records=csv::getRecords($filename);
         $page=html::createTable($records);
         system::printPage($page);
@@ -18,18 +19,32 @@ class main{
 
 class csv{
     public static function getRecords($fileName){
+
         $csvRaw=fopen($fileName, "r");
 
-        $rowsRaw=array();
+        $columnNames=array();
+
+        $records=array();
+
+        $count=0;
 
         while(!feof($csvRaw)){
-            $nextRow=fgets($csvRaw);
-            array_push($rowsRaw, $nextRow);
+
+            $nextRow=fgetcsv($csvRaw);
+
+            if($count==0){
+                $fieldNames=$nextRow;
+            }else{
+                $records[]=recordFactory::create($columnNames,$nextRow);
+            }
+
+            $count++;
+
         }
 
         fclose($csvRaw);
 
-        return $rowsRaw;
+        return $records;
     }
 }
 
