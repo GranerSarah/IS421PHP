@@ -12,8 +12,7 @@ class main{
     static public function start($filename){
 
         $records=csv::getRecords($filename);
-        $page=html::createTable($records);
-        system::printPage($page);
+        $table=html::createTable($records);
     }
 }
 
@@ -79,64 +78,25 @@ class html{
      */
     static public function createTable($records){
 
-        $html = '<table>'."\n";
+        $count=0;
 
-        for($x=0;$x<count($records);$x++){
-            $html .= html::tableRow($records[$x],$x);
+        foreach($records as $record){
+
+            if($count==0){
+
+                $array=$record->returnArray();
+                $fields=array_keys($array);
+                $values=array_values($array);
+                print_r($fields);
+                print_r($values);
+            }
+            else{
+                $array=$record->returnArray();
+                $values=array_values($array);
+                print_r($values);
+            }
+            $count++;
         }
-
-        $html .= '</table>'."\n";
-
-        return $html;
-    }
-
-    static public function tableRow($row, $rowNum){
-        $html="";
-
-        if($rowNum%2==0){
-            $html="<tr bgcolor=\"yellow\">";
-        }
-        else{
-            $html="<tr class=\"odd\">";
-        }
-
-        if($rowNum>0){
-            $html .= html::tableColumn($row);
-        }
-        else{
-            $html .= html::tableHead($row);
-        }
-
-        $html .= '</tr>'."\n";
-
-        return $html;
-    }
-
-    static public function tableColumn($row){
-        $html="";
-
-        $columns=explode(",",$row);
-
-        for($z=0;$z<count($columns);$z++){
-            $html .= "<td>"."\n";
-            $html .= $columns[$z]."\n";
-            $html .= "</td>"."\n";
-        }
-
-        return $html;
-    }
-
-    static public function tableHead($firstRow){
-        $headings = explode(",", $firstRow);
-        $html="";
-
-        for ($y=0;$y<count($headings);$y++){
-            $html .= "<th>"."\n";
-            $html .= $headings[$y]."\n";
-            $html .= "</th>"."\n";
-        }
-
-        return $html;
     }
 }
 
